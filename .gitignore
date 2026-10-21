@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+.pytest_cache/
+.coverage
+htmlcov/
+graphify-out/
+ui-shots/
+
+# Nur lokal: Abnahmebericht und Prüfskript mit Zugangsdatei
+docs/abnahme-*.md
+docs/render/
+.coverage

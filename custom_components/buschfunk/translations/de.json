@@ -1,0 +1,337 @@
+{
+  "title": "Buschfunk",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Buschfunk verbinden",
+        "description": "Buschfunk benötigt einen API-Key für Nachrichten und Entwürfe.",
+        "data": {
+          "url": "Buschfunk-URL",
+          "api_key": "API-Key"
+        },
+        "data_description": {
+          "url": "Adresse deiner Buschfunk-Installation; HTTPS empfohlen, kein Standard.",
+          "api_key": "Unter Einstellungen → Sicherheit erzeugter Key; kein Standard, gespeicherte Keys werden nicht angezeigt."
+        }
+      },
+      "reconfigure": {
+        "title": "Verbindung ändern",
+        "description": "Buschfunk benötigt einen API-Key für Nachrichten und Entwürfe.",
+        "data": {
+          "url": "Buschfunk-URL",
+          "api_key": "API-Key"
+        },
+        "data_description": {
+          "url": "Adresse deiner Buschfunk-Installation; HTTPS empfohlen, kein Standard.",
+          "api_key": "Unter Einstellungen → Sicherheit erzeugter Key; kein Standard, gespeicherte Keys werden nicht angezeigt."
+        }
+      },
+      "reauth_confirm": {
+        "title": "API-Key ersetzen",
+        "description": "Buschfunk benötigt einen API-Key für Nachrichten und Entwürfe.",
+        "data": {
+          "api_key": "API-Key"
+        },
+        "data_description": {
+          "api_key": "Unter Einstellungen → Sicherheit erzeugter Key; kein Standard, gespeicherte Keys werden nicht angezeigt."
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "API-Key ungültig oder widerrufen. In Buschfunk einen neuen Key erzeugen.",
+      "cannot_connect": "Buschfunk nicht erreichbar oder Antwort ungültig. URL, Verbindung und Zertifikat prüfen.",
+      "invalid_url": "URL bitte prüfen: nur HTTP/HTTPS ohne Pfad, Zugangsdaten oder Parameter."
+    },
+    "abort": {
+      "already_configured": "Diese Buschfunk-Installation ist bereits eingerichtet.",
+      "reauth_successful": "API-Key aktualisiert.",
+      "reconfigure_successful": "Verbindung aktualisiert."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Anfragezeit",
+        "description": "Wartezeit pro HTTP-Anfrage festlegen.",
+        "data": {
+          "timeout": "Zeitlimit"
+        },
+        "data_description": {
+          "timeout": "Sekunden pro Versuch, 10 bis 120; Vorgabe 45, bei Sendefehlern ein identischer Wiederholversuch."
+        }
+      }
+    }
+  },
+  "services": {
+    "chats": {
+      "name": "Chatverzeichnis",
+      "description": "Erlaubte Chatziele ohne Nachrichteninhalte abrufen; Antwortdaten erforderlich.",
+      "fields": {
+        "entry_id": {
+          "name": "Instanz",
+          "description": "Buschfunk-Instanz auswählen; ohne Auswahl muss genau eine eingerichtet sein."
+        },
+        "suche": {
+          "name": "Suche",
+          "description": "Chatnamen nach diesem Text filtern; leer zeigt alle erlaubten Ziele."
+        },
+        "dienst": {
+          "name": "Dienst",
+          "description": "Optional Messenger-ID wie telegram; leer zeigt alle Dienste."
+        },
+        "nach": {
+          "name": "Ab Position",
+          "description": "Position der nächsten Ergebnisse aus naechste; Vorgabe 0."
+        },
+        "limit": {
+          "name": "Ergebnisanzahl",
+          "description": "Höchstens 100 Chats pro Abruf; Vorgabe 50."
+        }
+      }
+    },
+    "senden": {
+      "name": "Nachricht senden",
+      "description": "Nachricht sofort senden; Inhaltsart wählen und die passende Feldgruppe ausfüllen.",
+      "fields": {
+        "entry_id": {
+          "name": "Instanz",
+          "description": "Buschfunk-Instanz auswählen; ohne Auswahl muss genau eine eingerichtet sein."
+        },
+        "chat_id": {
+          "name": "Chatkennung",
+          "description": "Kennung aus der Aktion Chatverzeichnis; kein Standard."
+        },
+        "art": {
+          "name": "Inhaltsart",
+          "description": "Art der Nachricht; Vorgabe Text."
+        },
+        "text": {
+          "name": "Nachrichtentext",
+          "description": "Text senden oder Medien beschriften; bei Text Pflicht, sonst leer."
+        },
+        "name": {
+          "name": "Name",
+          "description": "Name für Standort, Kontakt oder Termin; bei Kontakt und Termin Pflicht."
+        },
+        "dateien": {
+          "name": "Dateipfade",
+          "description": "Lokale erlaubte HA-Dateipfade, höchstens 20 Dateien und insgesamt 100 MiB; keine URLs."
+        },
+        "medienmodus": {
+          "name": "Medienart",
+          "description": "Darstellung der Dateien als Bild, Video oder Datei; Vorgabe Datei."
+        },
+        "frage": {
+          "name": "Frage",
+          "description": "Frage der Abstimmung, höchstens 255 Zeichen; kein Standard."
+        },
+        "antworten": {
+          "name": "Antworten",
+          "description": "Zwei bis zwölf unterschiedliche Antworten; kein Standard."
+        },
+        "mehrfach": {
+          "name": "Mehrfachauswahl",
+          "description": "Mehrere Antworten pro Person erlauben; Vorgabe aus."
+        },
+        "breite": {
+          "name": "Breitengrad",
+          "description": "Breitengrad zwischen −90 und 90; kein Standard."
+        },
+        "laenge": {
+          "name": "Längengrad",
+          "description": "Längengrad zwischen −180 und 180; kein Standard."
+        },
+        "telefon": {
+          "name": "Telefonnummer",
+          "description": "Telefonnummer des geteilten Kontakts; kein Standard."
+        },
+        "beginn": {
+          "name": "Beginn",
+          "description": "ISO-Zeitpunkt mit Zeitzone für den Terminbeginn; kein Standard."
+        },
+        "ende": {
+          "name": "Ende",
+          "description": "Optional ISO-Zeitpunkt mit Zeitzone für das Terminende; Vorgabe ohne Ende."
+        },
+        "beschreibung": {
+          "name": "Beschreibung",
+          "description": "Optionaler Text zum Termin; Vorgabe leer."
+        },
+        "ort": {
+          "name": "Ort",
+          "description": "Optionaler Ort des Termins; Vorgabe leer."
+        },
+        "vorgang": {
+          "name": "Vorgangskennung",
+          "description": "Optional eine UUID für sichere Wiederholungen; leer erzeugt eine neue Kennung."
+        }
+      },
+      "sections": {
+        "medien": {
+          "name": "Medien"
+        },
+        "abstimmung": {
+          "name": "Abstimmung"
+        },
+        "standort": {
+          "name": "Standort"
+        },
+        "kontakt": {
+          "name": "Kontakt"
+        },
+        "ereignis": {
+          "name": "Termin"
+        },
+        "wiederholung": {
+          "name": "Wiederholung"
+        }
+      }
+    },
+    "entwurf": {
+      "name": "Entwurf anlegen",
+      "description": "Entwurf in Buschfunk vorbereiten; Versand anschließend in Buschfunk bestätigen.",
+      "fields": {
+        "entry_id": {
+          "name": "Instanz",
+          "description": "Buschfunk-Instanz auswählen; ohne Auswahl muss genau eine eingerichtet sein."
+        },
+        "chat_id": {
+          "name": "Chatkennung",
+          "description": "Kennung aus der Aktion Chatverzeichnis; kein Standard."
+        },
+        "art": {
+          "name": "Inhaltsart",
+          "description": "Art der Nachricht; Vorgabe Text."
+        },
+        "text": {
+          "name": "Nachrichtentext",
+          "description": "Text senden oder Medien beschriften; bei Text Pflicht, sonst leer."
+        },
+        "name": {
+          "name": "Name",
+          "description": "Name für Standort, Kontakt oder Termin; bei Kontakt und Termin Pflicht."
+        },
+        "dateien": {
+          "name": "Dateipfade",
+          "description": "Lokale erlaubte HA-Dateipfade, höchstens 20 Dateien und insgesamt 100 MiB; keine URLs."
+        },
+        "medienmodus": {
+          "name": "Medienart",
+          "description": "Darstellung der Dateien als Bild, Video oder Datei; Vorgabe Datei."
+        },
+        "frage": {
+          "name": "Frage",
+          "description": "Frage der Abstimmung, höchstens 255 Zeichen; kein Standard."
+        },
+        "antworten": {
+          "name": "Antworten",
+          "description": "Zwei bis zwölf unterschiedliche Antworten; kein Standard."
+        },
+        "mehrfach": {
+          "name": "Mehrfachauswahl",
+          "description": "Mehrere Antworten pro Person erlauben; Vorgabe aus."
+        },
+        "breite": {
+          "name": "Breitengrad",
+          "description": "Breitengrad zwischen −90 und 90; kein Standard."
+        },
+        "laenge": {
+          "name": "Längengrad",
+          "description": "Längengrad zwischen −180 und 180; kein Standard."
+        },
+        "telefon": {
+          "name": "Telefonnummer",
+          "description": "Telefonnummer des geteilten Kontakts; kein Standard."
+        },
+        "beginn": {
+          "name": "Beginn",
+          "description": "ISO-Zeitpunkt mit Zeitzone für den Terminbeginn; kein Standard."
+        },
+        "ende": {
+          "name": "Ende",
+          "description": "Optional ISO-Zeitpunkt mit Zeitzone für das Terminende; Vorgabe ohne Ende."
+        },
+        "beschreibung": {
+          "name": "Beschreibung",
+          "description": "Optionaler Text zum Termin; Vorgabe leer."
+        },
+        "ort": {
+          "name": "Ort",
+          "description": "Optionaler Ort des Termins; Vorgabe leer."
+        },
+        "vorgang": {
+          "name": "Vorgangskennung",
+          "description": "Optional eine UUID für sichere Wiederholungen; leer erzeugt eine neue Kennung."
+        },
+        "ablauf_in_sekunden": {
+          "name": "Ablauf nach",
+          "description": "Sekunden bis zum Ablauf; leer bedeutet unbegrenzt, nicht mit Ablaufzeitpunkt kombinieren."
+        },
+        "verfaellt_um": {
+          "name": "Ablaufzeitpunkt",
+          "description": "Alternativ ISO-Zeitpunkt mit Zeitzone; leer bedeutet unbegrenzt."
+        },
+        "benachrichtigen": {
+          "name": "Benachrichtigen",
+          "description": "Bei neuem Entwurf auf registrierten Geräten hinweisen; Vorgabe aus."
+        }
+      },
+      "sections": {
+        "medien": {
+          "name": "Medien"
+        },
+        "abstimmung": {
+          "name": "Abstimmung"
+        },
+        "standort": {
+          "name": "Standort"
+        },
+        "kontakt": {
+          "name": "Kontakt"
+        },
+        "ereignis": {
+          "name": "Termin"
+        },
+        "wiederholung": {
+          "name": "Wiederholung"
+        },
+        "entwurfsoptionen": {
+          "name": "Entwurfsoptionen"
+        }
+      }
+    }
+  },
+  "selector": {
+    "kind": {
+      "options": {
+        "text": "Text",
+        "medien": "Medien",
+        "abstimmung": "Abstimmung",
+        "standort": "Standort",
+        "kontakt": "Kontakt",
+        "ereignis": "Termin"
+      }
+    },
+    "media_mode": {
+      "options": {
+        "bild": "Bild",
+        "video": "Video",
+        "datei": "Datei"
+      }
+    }
+  },
+  "exceptions": {
+    "select_entry": {
+      "message": "Genau eine geladene Buschfunk-Instanz auswählen."
+    },
+    "invalid_auth": {
+      "message": "API-Key ungültig oder widerrufen. In Buschfunk einen neuen Key erzeugen."
+    },
+    "invalid_content": {
+      "message": "Inhalt oder Dateipfad ungültig. Die zur Inhaltsart passenden Felder und erlaubten lokalen Dateien prüfen."
+    },
+    "request_failed": {
+      "message": "Auftrag nicht bestätigt. Bei identischer Wiederholung die Vorgangskennung {vorgang} verwenden; keine neue Kennung erzeugen."
+    }
+  }
+}

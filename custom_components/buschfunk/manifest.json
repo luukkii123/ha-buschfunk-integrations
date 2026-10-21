@@ -1,0 +1,11 @@
+{
+  "domain": "buschfunk",
+  "name": "Buschfunk",
+  "codeowners": ["@luukkii123"],
+  "config_flow": true,
+  "documentation": "https://github.com/luukkii123/ha-buschfunk-integrations",
+  "iot_class": "local_polling",
+  "issue_tracker": "https://github.com/luukkii123/ha-buschfunk-integrations/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

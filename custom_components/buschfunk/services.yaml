@@ -1,0 +1,200 @@
+chats:
+  fields:
+    entry_id:
+      selector: &id001
+        config_entry:
+          integration: buschfunk
+    suche:
+      selector:
+        text: {}
+    dienst:
+      selector:
+        text: {}
+    nach:
+      selector:
+        number:
+          min: 0
+          mode: box
+    limit:
+      selector:
+        number:
+          min: 1
+          max: 100
+          mode: box
+senden:
+  fields:
+    entry_id:
+      selector: *id001
+    chat_id:
+      selector: &id002
+        number:
+          min: 1
+          mode: box
+      required: true
+    art:
+      selector: &id003
+        select:
+          options:
+          - text
+          - medien
+          - abstimmung
+          - standort
+          - kontakt
+          - ereignis
+          translation_key: kind
+      default: text
+    text:
+      selector: &id004
+        text:
+          multiline: true
+    name:
+      selector: &id005
+        text: {}
+    medien:
+      collapsed: true
+      fields:
+        dateien:
+          selector: &id006
+            text:
+              multiple: true
+        medienmodus:
+          selector: &id007
+            select:
+              options:
+              - bild
+              - video
+              - datei
+              translation_key: media_mode
+    abstimmung:
+      collapsed: true
+      fields:
+        frage:
+          selector: &id008
+            text: {}
+        antworten:
+          selector: &id009
+            text:
+              multiple: true
+        mehrfach:
+          selector: &id010
+            boolean: {}
+    standort:
+      collapsed: true
+      fields:
+        breite:
+          selector: &id011
+            number:
+              min: -90
+              max: 90
+              step: any
+              mode: box
+        laenge:
+          selector: &id012
+            number:
+              min: -180
+              max: 180
+              step: any
+              mode: box
+    kontakt:
+      collapsed: true
+      fields:
+        telefon:
+          selector: &id013
+            text:
+              type: tel
+    ereignis:
+      collapsed: true
+      fields:
+        beginn:
+          selector: &id014
+            text: {}
+        ende:
+          selector: &id015
+            text: {}
+        beschreibung:
+          selector: &id016
+            text:
+              multiline: true
+        ort:
+          selector: &id017
+            text: {}
+    wiederholung:
+      collapsed: true
+      fields:
+        vorgang:
+          selector: &id018
+            text: {}
+entwurf:
+  fields:
+    entry_id:
+      selector: *id001
+    chat_id:
+      selector: *id002
+      required: true
+    art:
+      selector: *id003
+      default: text
+    text:
+      selector: *id004
+    name:
+      selector: *id005
+    medien:
+      collapsed: true
+      fields:
+        dateien:
+          selector: *id006
+        medienmodus:
+          selector: *id007
+    abstimmung:
+      collapsed: true
+      fields:
+        frage:
+          selector: *id008
+        antworten:
+          selector: *id009
+        mehrfach:
+          selector: *id010
+    standort:
+      collapsed: true
+      fields:
+        breite:
+          selector: *id011
+        laenge:
+          selector: *id012
+    kontakt:
+      collapsed: true
+      fields:
+        telefon:
+          selector: *id013
+    ereignis:
+      collapsed: true
+      fields:
+        beginn:
+          selector: *id014
+        ende:
+          selector: *id015
+        beschreibung:
+          selector: *id016
+        ort:
+          selector: *id017
+    wiederholung:
+      collapsed: true
+      fields:
+        vorgang:
+          selector: *id018
+    entwurfsoptionen:
+      collapsed: true
+      fields:
+        ablauf_in_sekunden:
+          selector:
+            number:
+              min: 1
+              max: 2147483647
+              mode: box
+              unit_of_measurement: s
+        verfaellt_um:
+          selector:
+            text: {}
+        benachrichtigen:
+          selector:
+            boolean: {}

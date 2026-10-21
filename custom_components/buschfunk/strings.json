@@ -1,0 +1,337 @@
+{
+  "title": "Buschfunk",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect Buschfunk",
+        "description": "Buschfunk requires an API key for messages and drafts.",
+        "data": {
+          "url": "Buschfunk URL",
+          "api_key": "API key"
+        },
+        "data_description": {
+          "url": "Your Buschfunk installation URL; HTTPS recommended, no default.",
+          "api_key": "Key created under Settings → Security; no default, saved keys are never displayed."
+        }
+      },
+      "reconfigure": {
+        "title": "Change connection",
+        "description": "Buschfunk requires an API key for messages and drafts.",
+        "data": {
+          "url": "Buschfunk URL",
+          "api_key": "API key"
+        },
+        "data_description": {
+          "url": "Your Buschfunk installation URL; HTTPS recommended, no default.",
+          "api_key": "Key created under Settings → Security; no default, saved keys are never displayed."
+        }
+      },
+      "reauth_confirm": {
+        "title": "Replace API key",
+        "description": "Buschfunk requires an API key for messages and drafts.",
+        "data": {
+          "api_key": "API key"
+        },
+        "data_description": {
+          "api_key": "Key created under Settings → Security; no default, saved keys are never displayed."
+        }
+      }
+    },
+    "error": {
+      "invalid_auth": "API key invalid or revoked. Create a new key in Buschfunk.",
+      "cannot_connect": "Cannot connect or invalid response. Check URL, connection and certificate.",
+      "invalid_url": "Check the URL: HTTP/HTTPS only, without path, credentials or parameters."
+    },
+    "abort": {
+      "already_configured": "This Buschfunk installation is already configured.",
+      "reauth_successful": "API key updated.",
+      "reconfigure_successful": "Connection updated."
+    }
+  },
+  "options": {
+    "step": {
+      "init": {
+        "title": "Request timeout",
+        "description": "Set the timeout for each HTTP request.",
+        "data": {
+          "timeout": "Timeout"
+        },
+        "data_description": {
+          "timeout": "Seconds per attempt, 10 to 120; default 45, one identical retry for send failures."
+        }
+      }
+    }
+  },
+  "services": {
+    "chats": {
+      "name": "Chat directory",
+      "description": "List allowed chat targets without message content; response data required.",
+      "fields": {
+        "entry_id": {
+          "name": "Instance",
+          "description": "Select the Buschfunk instance; if omitted exactly one must be configured."
+        },
+        "suche": {
+          "name": "Search",
+          "description": "Filter chat names by this text; blank shows all allowed targets."
+        },
+        "dienst": {
+          "name": "Service",
+          "description": "Optional messenger ID such as telegram; blank shows all services."
+        },
+        "nach": {
+          "name": "Offset",
+          "description": "Offset for subsequent results from naechste; default 0."
+        },
+        "limit": {
+          "name": "Result count",
+          "description": "Up to 100 chats per request; default 50."
+        }
+      }
+    },
+    "senden": {
+      "name": "Send message",
+      "description": "Send immediately; select a content type and fill the corresponding field group.",
+      "fields": {
+        "entry_id": {
+          "name": "Instance",
+          "description": "Select the Buschfunk instance; if omitted exactly one must be configured."
+        },
+        "chat_id": {
+          "name": "Chat ID",
+          "description": "ID returned by the chat directory action; no default."
+        },
+        "art": {
+          "name": "Content type",
+          "description": "Type of message; default Text."
+        },
+        "text": {
+          "name": "Message text",
+          "description": "Send text or caption media; required for text, otherwise blank."
+        },
+        "name": {
+          "name": "Name",
+          "description": "Name for location, contact or event; required for contacts and events."
+        },
+        "dateien": {
+          "name": "File paths",
+          "description": "Allowed local HA file paths, at most 20 files and 100 MiB total; no URLs."
+        },
+        "medienmodus": {
+          "name": "Media type",
+          "description": "Display files as image, video or attachment; default Attachment."
+        },
+        "frage": {
+          "name": "Question",
+          "description": "Poll question, up to 255 characters; no default."
+        },
+        "antworten": {
+          "name": "Answers",
+          "description": "Two to twelve distinct answers; no default."
+        },
+        "mehrfach": {
+          "name": "Multiple choice",
+          "description": "Allow several answers per person; default off."
+        },
+        "breite": {
+          "name": "Latitude",
+          "description": "Latitude between −90 and 90; no default."
+        },
+        "laenge": {
+          "name": "Longitude",
+          "description": "Longitude between −180 and 180; no default."
+        },
+        "telefon": {
+          "name": "Phone number",
+          "description": "Shared contact phone number; no default."
+        },
+        "beginn": {
+          "name": "Start",
+          "description": "ISO timestamp with timezone for event start; no default."
+        },
+        "ende": {
+          "name": "End",
+          "description": "Optional ISO timestamp with timezone for event end; default no end."
+        },
+        "beschreibung": {
+          "name": "Description",
+          "description": "Optional event description; default blank."
+        },
+        "ort": {
+          "name": "Place",
+          "description": "Optional event location; default blank."
+        },
+        "vorgang": {
+          "name": "Operation ID",
+          "description": "Optional UUID for safe retries; leaving it empty generates a new ID."
+        }
+      },
+      "sections": {
+        "medien": {
+          "name": "Media"
+        },
+        "abstimmung": {
+          "name": "Poll"
+        },
+        "standort": {
+          "name": "Location"
+        },
+        "kontakt": {
+          "name": "Contact"
+        },
+        "ereignis": {
+          "name": "Event"
+        },
+        "wiederholung": {
+          "name": "Retry"
+        }
+      }
+    },
+    "entwurf": {
+      "name": "Create draft",
+      "description": "Prepare a draft in Buschfunk; confirm sending later in Buschfunk.",
+      "fields": {
+        "entry_id": {
+          "name": "Instance",
+          "description": "Select the Buschfunk instance; if omitted exactly one must be configured."
+        },
+        "chat_id": {
+          "name": "Chat ID",
+          "description": "ID returned by the chat directory action; no default."
+        },
+        "art": {
+          "name": "Content type",
+          "description": "Type of message; default Text."
+        },
+        "text": {
+          "name": "Message text",
+          "description": "Send text or caption media; required for text, otherwise blank."
+        },
+        "name": {
+          "name": "Name",
+          "description": "Name for location, contact or event; required for contacts and events."
+        },
+        "dateien": {
+          "name": "File paths",
+          "description": "Allowed local HA file paths, at most 20 files and 100 MiB total; no URLs."
+        },
+        "medienmodus": {
+          "name": "Media type",
+          "description": "Display files as image, video or attachment; default Attachment."
+        },
+        "frage": {
+          "name": "Question",
+          "description": "Poll question, up to 255 characters; no default."
+        },
+        "antworten": {
+          "name": "Answers",
+          "description": "Two to twelve distinct answers; no default."
+        },
+        "mehrfach": {
+          "name": "Multiple choice",
+          "description": "Allow several answers per person; default off."
+        },
+        "breite": {
+          "name": "Latitude",
+          "description": "Latitude between −90 and 90; no default."
+        },
+        "laenge": {
+          "name": "Longitude",
+          "description": "Longitude between −180 and 180; no default."
+        },
+        "telefon": {
+          "name": "Phone number",
+          "description": "Shared contact phone number; no default."
+        },
+        "beginn": {
+          "name": "Start",
+          "description": "ISO timestamp with timezone for event start; no default."
+        },
+        "ende": {
+          "name": "End",
+          "description": "Optional ISO timestamp with timezone for event end; default no end."
+        },
+        "beschreibung": {
+          "name": "Description",
+          "description": "Optional event description; default blank."
+        },
+        "ort": {
+          "name": "Place",
+          "description": "Optional event location; default blank."
+        },
+        "vorgang": {
+          "name": "Operation ID",
+          "description": "Optional UUID for safe retries; leaving it empty generates a new ID."
+        },
+        "ablauf_in_sekunden": {
+          "name": "Expire after",
+          "description": "Seconds before expiration; blank means unlimited, do not combine with expiry time."
+        },
+        "verfaellt_um": {
+          "name": "Expiry time",
+          "description": "Alternatively an ISO timestamp with timezone; blank means unlimited."
+        },
+        "benachrichtigen": {
+          "name": "Notify",
+          "description": "Notify registered devices of a new draft; default off."
+        }
+      },
+      "sections": {
+        "medien": {
+          "name": "Media"
+        },
+        "abstimmung": {
+          "name": "Poll"
+        },
+        "standort": {
+          "name": "Location"
+        },
+        "kontakt": {
+          "name": "Contact"
+        },
+        "ereignis": {
+          "name": "Event"
+        },
+        "wiederholung": {
+          "name": "Retry"
+        },
+        "entwurfsoptionen": {
+          "name": "Draft options"
+        }
+      }
+    }
+  },
+  "selector": {
+    "kind": {
+      "options": {
+        "text": "Text",
+        "medien": "Media",
+        "abstimmung": "Poll",
+        "standort": "Location",
+        "kontakt": "Contact",
+        "ereignis": "Event"
+      }
+    },
+    "media_mode": {
+      "options": {
+        "bild": "Image",
+        "video": "Video",
+        "datei": "Attachment"
+      }
+    }
+  },
+  "exceptions": {
+    "select_entry": {
+      "message": "Select exactly one loaded Buschfunk instance."
+    },
+    "invalid_auth": {
+      "message": "API key invalid or revoked. Create a new key in Buschfunk."
+    },
+    "invalid_content": {
+      "message": "Invalid content or file path. Check content fields and allowed local files."
+    },
+    "request_failed": {
+      "message": "Request not confirmed. Retry the same content with operation ID {vorgang}; do not generate a new ID."
+    }
+  }
+}

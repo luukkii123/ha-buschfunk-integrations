@@ -1,0 +1,13 @@
+{
+  "services": {
+    "chats": {
+      "service": "mdi:format-list-bulleted"
+    },
+    "senden": {
+      "service": "mdi:send"
+    },
+    "entwurf": {
+      "service": "mdi:file-document-edit-outline"
+    }
+  }
+}
