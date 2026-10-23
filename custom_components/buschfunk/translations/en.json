@@ -299,6 +299,101 @@
           "name": "Draft options"
         }
       }
+    },
+    "dienstraum_senden": {
+      "name": "Send to service room",
+      "description": "Send a message as the service room’s own sender; with a name the room is added first if needed.",
+      "fields": {
+        "entry_id": {
+          "name": "Instance",
+          "description": "Select the Buschfunk instance; if omitted exactly one must be configured."
+        },
+        "kennung": {
+          "name": "Room ID",
+          "description": "Stable ID of the service room: a–z, 0–9, - and _, up to 32 characters, starting and ending with a letter or digit."
+        },
+        "name": {
+          "name": "Room name",
+          "description": "Optional, 1 to 64 characters; when set the room is added or renamed before sending."
+        },
+        "titel": {
+          "name": "Title",
+          "description": "Optional single line up to 120 characters, shown in bold above the text."
+        },
+        "text": {
+          "name": "Message text",
+          "description": "Text up to 4000 characters; no default."
+        },
+        "wichtig": {
+          "name": "Important",
+          "description": "Mention your own account so the message also rings when the room is set to mentions only; default off."
+        },
+        "bild": {
+          "name": "Picture file",
+          "description": "Allowed local HA file path; PNG, JPEG, WebP or GIF up to 1 MiB; becomes room and sender picture."
+        },
+        "bild_entitaet": {
+          "name": "Picture entity",
+          "description": "Alternatively an image or camera entity; its current picture is used, at most 1 MiB."
+        },
+        "vorgang": {
+          "name": "Operation ID",
+          "description": "Optional UUID for safe retries; leaving it empty generates a new ID."
+        }
+      },
+      "sections": {
+        "raumbild": {
+          "name": "Room picture"
+        },
+        "wiederholung": {
+          "name": "Retry"
+        }
+      }
+    },
+    "dienstraum_sicherstellen": {
+      "name": "Add or update service room",
+      "description": "Add the service room or update its name and picture; unchanged calls do nothing.",
+      "fields": {
+        "entry_id": {
+          "name": "Instance",
+          "description": "Select the Buschfunk instance; if omitted exactly one must be configured."
+        },
+        "kennung": {
+          "name": "Room ID",
+          "description": "Stable ID of the service room: a–z, 0–9, - and _, up to 32 characters, starting and ending with a letter or digit."
+        },
+        "name": {
+          "name": "Room name",
+          "description": "1 to 64 characters without control characters; becomes room and sender name."
+        },
+        "bild": {
+          "name": "Picture file",
+          "description": "Allowed local HA file path; PNG, JPEG, WebP or GIF up to 1 MiB; becomes room and sender picture."
+        },
+        "bild_entitaet": {
+          "name": "Picture entity",
+          "description": "Alternatively an image or camera entity; its current picture is used, at most 1 MiB."
+        }
+      },
+      "sections": {
+        "raumbild": {
+          "name": "Room picture"
+        }
+      }
+    },
+    "dienstraum_entfernen": {
+      "name": "Remove service room",
+      "description": "Archive the service room; its history stays in Buschfunk and the room ID becomes free again.",
+      "fields": {
+        "entry_id": {
+          "name": "Instance",
+          "description": "Select the Buschfunk instance; if omitted exactly one must be configured."
+        },
+        "kennung": {
+          "name": "Room ID",
+          "description": "Stable ID of the service room: a–z, 0–9, - and _, up to 32 characters, starting and ending with a letter or digit."
+        }
+      }
     }
   },
   "selector": {
@@ -332,6 +427,55 @@
     },
     "request_failed": {
       "message": "Request not confirmed. Retry the same content with operation ID {vorgang}; do not generate a new ID."
+    },
+    "forbidden": {
+      "message": "This key has no permission for this request, or this Buschfunk version has no service rooms yet. Use the API key from Settings → Security, not an MCP key."
+    },
+    "rate_limited": {
+      "message": "Buschfunk is throttling requests. Retry in {sekunden} seconds."
+    },
+    "rate_limited_later": {
+      "message": "Buschfunk is throttling requests. Retry later."
+    },
+    "invalid_kennung": {
+      "message": "Check the room ID: a–z, 0–9, - and _, up to 32 characters, starting and ending with a letter or digit."
+    },
+    "invalid_name": {
+      "message": "Room name required (1 to 64 characters, no control characters); a picture can only be set together with a name."
+    },
+    "invalid_titel": {
+      "message": "Check the title: single line, at most 120 characters."
+    },
+    "invalid_text": {
+      "message": "Message text required: 1 to 4000 characters without control characters."
+    },
+    "invalid_image": {
+      "message": "Picture invalid: an allowed local file or an image/camera entity in PNG, JPEG, WebP or GIF; not both."
+    },
+    "image_too_large": {
+      "message": "Picture larger than 1 MiB. Use a smaller picture."
+    },
+    "image_unavailable": {
+      "message": "The entity currently provides no picture."
+    },
+    "room_not_found": {
+      "message": "Service room not active. Add it first or send with a room name."
+    },
+    "room_limit": {
+      "message": "At most 20 service rooms. Remove one and retry."
+    },
+    "rooms_unavailable": {
+      "message": "Service rooms are not available on this Buschfunk installation."
+    },
+    "room_request_failed": {
+      "message": "Request not confirmed. Retrying the same call is safe."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "dienstraeume": {
+        "name": "Service rooms"
+      }
     }
   }
 }

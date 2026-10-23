@@ -198,3 +198,72 @@ entwurf:
         benachrichtigen:
           selector:
             boolean: {}
+dienstraum_senden:
+  fields:
+    entry_id:
+      selector: *id001
+    kennung:
+      required: true
+      example: waschmaschine
+      selector: &id019
+        text: {}
+    name:
+      example: Waschmaschine
+      selector: &id020
+        text: {}
+    titel:
+      selector:
+        text: {}
+    text:
+      required: true
+      selector:
+        text:
+          multiline: true
+    wichtig:
+      default: false
+      selector:
+        boolean: {}
+    raumbild:
+      collapsed: true
+      fields:
+        bild:
+          selector: &id021
+            text: {}
+        bild_entitaet:
+          selector: &id022
+            entity:
+              domain:
+              - image
+              - camera
+    wiederholung:
+      collapsed: true
+      fields:
+        vorgang:
+          selector: *id018
+dienstraum_sicherstellen:
+  fields:
+    entry_id:
+      selector: *id001
+    kennung:
+      required: true
+      example: waschmaschine
+      selector: *id019
+    name:
+      required: true
+      example: Waschmaschine
+      selector: *id020
+    raumbild:
+      collapsed: true
+      fields:
+        bild:
+          selector: *id021
+        bild_entitaet:
+          selector: *id022
+dienstraum_entfernen:
+  fields:
+    entry_id:
+      selector: *id001
+    kennung:
+      required: true
+      example: waschmaschine
+      selector: *id019

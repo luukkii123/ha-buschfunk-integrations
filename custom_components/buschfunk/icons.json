@@ -8,6 +8,22 @@
     },
     "entwurf": {
       "service": "mdi:file-document-edit-outline"
+    },
+    "dienstraum_senden": {
+      "service": "mdi:message-alert-outline"
+    },
+    "dienstraum_sicherstellen": {
+      "service": "mdi:home-plus-outline"
+    },
+    "dienstraum_entfernen": {
+      "service": "mdi:archive-arrow-down-outline"
+    }
+  },
+  "entity": {
+    "sensor": {
+      "dienstraeume": {
+        "default": "mdi:home-automation"
+      }
     }
   }
 }

@@ -11,6 +11,20 @@ class ApiError(Exception):
     """Response cannot be confirmed; contains no upstream body or credentials."""
 class ApiAuthError(ApiError):
     """API key is invalid or revoked."""
+class ApiForbiddenError(ApiAuthError):
+    """Key is valid but lacks this right (e.g. an MCP key for service rooms)."""
+class ApiRateLimitError(ApiError):
+    """HTTP 429; retry_after holds the server's Retry-After seconds when given."""
+    def __init__(self,retry_after:int|None):
+        super().__init__('rate_limited');self.retry_after=retry_after
+
+def retry_after(value:str|None)->int|None:
+    # Buschfunk sends whole seconds; an HTTP date or garbage is not guessed at.
+    if value is None or not value.strip().isdigit():return None
+    return min(int(value.strip()),86400)
+
+def ist_dienstraum(d)->bool:
+    return isinstance(d,dict) and isinstance(d.get('kennung'),str) and isinstance(d.get('name'),str) and isinstance(d.get('archiviert'),bool) and (d.get('chatId') is None or isinstance(d['chatId'],int) and not isinstance(d['chatId'],bool))
 
 def normalize_url(value: str) -> str:
     url = urlsplit(value.strip())
@@ -26,11 +40,14 @@ class BuschfunkApi:
     def __init__(self,session:aiohttp.ClientSession,url:str,key:str,timeout:int=45):
         self.session=session;self.url=normalize_url(url);self._key=key;self.timeout=timeout
 
-    async def _request(self,method:str,path:str,**kwargs:Any)->dict:
+    async def _request(self,method:str,path:str,leer:bool=False,**kwargs:Any)->dict:
         try:
             async with self.session.request(method,self.url+'/api/integration/v1/'+path,headers={'Authorization':'Bearer '+self._key},timeout=aiohttp.ClientTimeout(total=self.timeout),allow_redirects=False,**kwargs) as response:
-                if response.status in (401,403):raise ApiAuthError('invalid_auth')
+                if response.status==401:raise ApiAuthError('invalid_auth')
+                if response.status==403:raise ApiForbiddenError('forbidden')
+                if response.status==429:raise ApiRateLimitError(retry_after(response.headers.get('Retry-After')))
                 if not 200<=response.status<300:raise ApiError(f'http_{response.status}')
+                if leer:return {}
                 data=await response.json()
                 if not isinstance(data,dict):raise ApiError('invalid_response')
                 return data
@@ -59,3 +76,30 @@ class BuschfunkApi:
             except ApiError as err:
                 if attempt or str(err) not in ('cannot_connect','http_502','http_503','http_504'):raise
         raise ApiError('cannot_connect')
+
+    async def dienstraeume(self)->dict:
+        data=await self._request('GET','dienstraeume')
+        if not isinstance(data.get('dienstraeume'),list) or not all(ist_dienstraum(d) for d in data['dienstraeume']):raise ApiError('invalid_response')
+        return data
+
+    async def _wiederholt(self,method:str,path:str,payload:dict)->dict:
+        # One identical retry: PUT is idempotent, POST carries the same vorgang.
+        for attempt in range(2):
+            try:return await self._request(method,path,json=payload)
+            except ApiError as err:
+                if attempt or str(err) not in ('cannot_connect','http_502','http_504'):raise
+        raise ApiError('cannot_connect')
+
+    async def dienstraum_sicherstellen(self,kennung:str,payload:dict)->dict:
+        data=await self._wiederholt('PUT','dienstraeume/'+kennung,payload)
+        if not ist_dienstraum(data) or data['kennung']!=kennung or not isinstance(data.get('neu'),bool):raise ApiError('invalid_response')
+        return data
+
+    async def dienstraum_senden(self,kennung:str,payload:dict)->dict:
+        data=await self._wiederholt('POST',f'dienstraeume/{kennung}/nachrichten',payload)
+        if data.get('kennung')!=kennung or data.get('vorgang')!=payload['vorgang'] or not isinstance(data.get('ereignisId'),str):raise ApiError('invalid_response')
+        return data
+
+    async def dienstraum_entfernen(self,kennung:str)->None:
+        # No retry: a repeated DELETE after a lost 204 would report 404.
+        await self._request('DELETE','dienstraeume/'+kennung,leer=True)

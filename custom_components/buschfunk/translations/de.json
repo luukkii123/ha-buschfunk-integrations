@@ -299,6 +299,101 @@
           "name": "Entwurfsoptionen"
         }
       }
+    },
+    "dienstraum_senden": {
+      "name": "An Dienstraum senden",
+      "description": "Sendet als eigener Absender des Dienstraums; mit Name wird der Raum bei Bedarf vorher hinzugefügt.",
+      "fields": {
+        "entry_id": {
+          "name": "Instanz",
+          "description": "Buschfunk-Instanz auswählen; ohne Auswahl muss genau eine eingerichtet sein."
+        },
+        "kennung": {
+          "name": "Raumkennung",
+          "description": "Feste Kennung des Dienstraums: a–z, 0–9, - und _, höchstens 32 Zeichen, Anfang und Ende Buchstabe oder Ziffer."
+        },
+        "name": {
+          "name": "Raumname",
+          "description": "Optional, 1 bis 64 Zeichen; gesetzt wird der Raum vor dem Senden hinzugefügt oder umbenannt."
+        },
+        "titel": {
+          "name": "Titel",
+          "description": "Optional einzeilig bis 120 Zeichen, steht fett über dem Text."
+        },
+        "text": {
+          "name": "Nachrichtentext",
+          "description": "Text bis 4000 Zeichen; keine Vorgabe."
+        },
+        "wichtig": {
+          "name": "Wichtig",
+          "description": "Erwähnt das eigene Konto, damit es auch bei „nur Erwähnungen“ klingelt; Vorgabe aus."
+        },
+        "bild": {
+          "name": "Bilddatei",
+          "description": "Erlaubter lokaler HA-Dateipfad; PNG, JPEG, WebP oder GIF bis 1 MiB; wird Raum- und Absenderbild."
+        },
+        "bild_entitaet": {
+          "name": "Bildentität",
+          "description": "Alternativ eine Bild- oder Kamera-Entität; ihr aktuelles Bild wird verwendet, höchstens 1 MiB."
+        },
+        "vorgang": {
+          "name": "Vorgangskennung",
+          "description": "Optional eine UUID für sichere Wiederholungen; leer erzeugt eine neue Kennung."
+        }
+      },
+      "sections": {
+        "raumbild": {
+          "name": "Raumbild"
+        },
+        "wiederholung": {
+          "name": "Wiederholung"
+        }
+      }
+    },
+    "dienstraum_sicherstellen": {
+      "name": "Dienstraum hinzufügen oder ändern",
+      "description": "Fügt den Dienstraum hinzu oder ändert Name und Bild; unveränderte Aufrufe bewirken nichts.",
+      "fields": {
+        "entry_id": {
+          "name": "Instanz",
+          "description": "Buschfunk-Instanz auswählen; ohne Auswahl muss genau eine eingerichtet sein."
+        },
+        "kennung": {
+          "name": "Raumkennung",
+          "description": "Feste Kennung des Dienstraums: a–z, 0–9, - und _, höchstens 32 Zeichen, Anfang und Ende Buchstabe oder Ziffer."
+        },
+        "name": {
+          "name": "Raumname",
+          "description": "1 bis 64 Zeichen ohne Steuerzeichen; wird Raum- und Absendername."
+        },
+        "bild": {
+          "name": "Bilddatei",
+          "description": "Erlaubter lokaler HA-Dateipfad; PNG, JPEG, WebP oder GIF bis 1 MiB; wird Raum- und Absenderbild."
+        },
+        "bild_entitaet": {
+          "name": "Bildentität",
+          "description": "Alternativ eine Bild- oder Kamera-Entität; ihr aktuelles Bild wird verwendet, höchstens 1 MiB."
+        }
+      },
+      "sections": {
+        "raumbild": {
+          "name": "Raumbild"
+        }
+      }
+    },
+    "dienstraum_entfernen": {
+      "name": "Dienstraum entfernen",
+      "description": "Archiviert den Dienstraum; der Verlauf bleibt in Buschfunk, die Raumkennung wird wieder frei.",
+      "fields": {
+        "entry_id": {
+          "name": "Instanz",
+          "description": "Buschfunk-Instanz auswählen; ohne Auswahl muss genau eine eingerichtet sein."
+        },
+        "kennung": {
+          "name": "Raumkennung",
+          "description": "Feste Kennung des Dienstraums: a–z, 0–9, - und _, höchstens 32 Zeichen, Anfang und Ende Buchstabe oder Ziffer."
+        }
+      }
     }
   },
   "selector": {
@@ -332,6 +427,55 @@
     },
     "request_failed": {
       "message": "Auftrag nicht bestätigt. Bei identischer Wiederholung die Vorgangskennung {vorgang} verwenden; keine neue Kennung erzeugen."
+    },
+    "forbidden": {
+      "message": "Dieser Key hat für diese Anfrage kein Recht, oder diese Buschfunk-Version kennt noch keine Diensträume. Den API-Key aus Einstellungen → Sicherheit verwenden, keinen MCP-Key."
+    },
+    "rate_limited": {
+      "message": "Buschfunk drosselt Anfragen. In {sekunden} Sekunden erneut versuchen."
+    },
+    "rate_limited_later": {
+      "message": "Buschfunk drosselt Anfragen. Später erneut versuchen."
+    },
+    "invalid_kennung": {
+      "message": "Raumkennung prüfen: a–z, 0–9, - und _, höchstens 32 Zeichen, Anfang und Ende Buchstabe oder Ziffer."
+    },
+    "invalid_name": {
+      "message": "Raumname nötig (1 bis 64 Zeichen, ohne Steuerzeichen); ein Bild lässt sich nur zusammen mit einem Namen setzen."
+    },
+    "invalid_titel": {
+      "message": "Titel prüfen: einzeilig, höchstens 120 Zeichen."
+    },
+    "invalid_text": {
+      "message": "Nachrichtentext nötig: 1 bis 4000 Zeichen ohne Steuerzeichen."
+    },
+    "invalid_image": {
+      "message": "Bild ungültig: erlaubte lokale Datei oder Bild-/Kamera-Entität als PNG, JPEG, WebP oder GIF, nicht beides."
+    },
+    "image_too_large": {
+      "message": "Bild größer als 1 MiB. Ein kleineres Bild verwenden."
+    },
+    "image_unavailable": {
+      "message": "Die Entität liefert gerade kein Bild."
+    },
+    "room_not_found": {
+      "message": "Dienstraum nicht aktiv. Erst hinzufügen oder mit Raumname senden."
+    },
+    "room_limit": {
+      "message": "Höchstens 20 Diensträume. Einen entfernen und erneut versuchen."
+    },
+    "rooms_unavailable": {
+      "message": "Diensträume sind in dieser Buschfunk-Installation nicht verfügbar."
+    },
+    "room_request_failed": {
+      "message": "Auftrag nicht bestätigt. Derselbe Aufruf kann gefahrlos wiederholt werden."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "dienstraeume": {
+        "name": "Diensträume"
+      }
     }
   }
 }

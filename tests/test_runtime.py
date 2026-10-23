@@ -11,10 +11,10 @@ async def test_services_setup_unloaded_and_loaded(hass):
  assert all(hass.services.has_service('buschfunk',s) for s in ('chats','senden','entwurf'))
  with pytest.raises(ServiceValidationError):await hass.services.async_call('buschfunk','senden',{'chat_id':1,'text':'Fixture'},blocking=True)
  e=MockConfigEntry(domain='buschfunk',data={},unique_id='fixture');e.add_to_hass(hass)
- e.runtime_data=AsyncMock();e.runtime_data.schreiben.return_value={'vorgang':'12345678-1234-4234-8234-123456789abc','angenommen':True}
+ e.runtime_data=AsyncMock();e.runtime_data.api.schreiben.return_value={'vorgang':'12345678-1234-4234-8234-123456789abc','angenommen':True}
  result=await hass.services.async_call('buschfunk','entwurf',{'entry_id':e.entry_id,'chat_id':1,'text':'Fixture','vorgang':'12345678-1234-4234-8234-123456789abc','benachrichtigen':True},blocking=True,return_response=True)
  assert result=={'vorgang':'12345678-1234-4234-8234-123456789abc','angenommen':True}
- e.runtime_data.schreiben.assert_awaited_once_with('entwurf',{'chatId':1,'vorgang':'12345678-1234-4234-8234-123456789abc','inhalt':{'art':'text','text':'Fixture'},'benachrichtigen':True},[])
+ e.runtime_data.api.schreiben.assert_awaited_once_with('entwurf',{'chatId':1,'vorgang':'12345678-1234-4234-8234-123456789abc','inhalt':{'art':'text','text':'Fixture'},'benachrichtigen':True},[])
  await async_unload_entry(hass,e)
  assert hass.services.has_service('buschfunk','entwurf')
  with pytest.raises(ServiceValidationError):await hass.services.async_call('buschfunk','senden',{'chat_id':1,'text':'Fixture'},blocking=True)
@@ -41,11 +41,11 @@ async def test_registered_service_rejects_ambiguous_chat_id(hass,value):
  e.runtime_data=AsyncMock()
  with pytest.raises(vol.Invalid):
   await hass.services.async_call('buschfunk','senden',{'chat_id':value,'text':'Fixture'},blocking=True)
- e.runtime_data.schreiben.assert_not_awaited()
+ e.runtime_data.api.schreiben.assert_not_awaited()
 
 async def test_registered_service_accepts_integral_selector_value(hass):
  await async_setup(hass,{})
  e=MockConfigEntry(domain='buschfunk',data={},unique_id='fixture');e.add_to_hass(hass)
  e.runtime_data=AsyncMock()
  await hass.services.async_call('buschfunk','senden',{'chat_id':1.0,'text':'Fixture'},blocking=True)
- assert e.runtime_data.schreiben.await_args.args[1]['chatId']==1
+ assert e.runtime_data.api.schreiben.await_args.args[1]['chatId']==1
