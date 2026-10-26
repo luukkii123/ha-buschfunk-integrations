@@ -57,3 +57,18 @@ Nativ im Home-Assistant-Frontend wurden die Formularschemata der Einrichtung,
 der Optionen und der Aktionen bei 320 bis 1280 px, hell und dunkel, auf
 Überlauf geprüft. Das Prüfskript benötigt Zugangsdaten zu einer laufenden
 Instanz und wird deshalb nicht mit ausgeliefert.
+
+## Geprüft
+
+26.10.2026, Version 0.2.0 (Implementierung `eacba34`): 111 von 111 Tests
+gegen Home Assistant 2026.9.2 mit Python 3.14.9 und
+`pytest-homeassistant-custom-component` 0.13.365 bestanden, keine übersprungen.
+Die statische UI-Regelprüfung meldet keine Verstöße. Der laufende
+Buschfunk-Endpunkt für Diensträume antwortet ohne Schlüssel und mit einem
+erfundenen Schlüssel jeweils korrekt mit HTTP 401.
+
+Noch offen vor der Veröffentlichung: authentifizierter Live-Rundlauf mit
+eigener Testkennung (Anlegen, identischer PUT, Senden mit identischer
+Vorgangskennung, Liste, Entfernen und erneute Liste), native Formularabnahme
+der neuen Aktionen und Prüfung des über HACS installierten Stands.
+Die lokalen Tests ersetzen diese Nachweise nicht.
