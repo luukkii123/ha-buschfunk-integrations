@@ -92,3 +92,19 @@ Konfigurationseinträge wurden gespeichert. Die HA-Konfigurationsprüfung war
 gültig. Noch offen vor Veröffentlichung: native Formularabnahme der neuen
 Aktionen und Prüfung des über HACS installierten Stands. Die lokalen Tests
 ersetzen diese Nachweise nicht.
+
+**26.10.2026 – native Schlussabnahme für 0.2.0 (#554):** Die drei neuen
+Dienstraumaktionen wurden mit dem aktuellen Schema aus services.yaml und
+beiden Übersetzungen im echten HA-Frontend als native ha-form geprüft:
+48/48 Fälle (Deutsch/Englisch, 320/480/960/1280 px, hell/dunkel), keine
+Überläufe, fehlenden Felder oder Seitenfehler, keine Serviceaufrufe.
+Zwölf Bilder ausschließlich synthetischer Formularflächen; sechs davon
+(alle Aktionen, 320 dunkel Deutsch/960 hell Englisch) unabhängig gesichtet:
+Labels, Hilfen, Pflichtfelder und Bereiche vollständig lesbar, nichts
+abgeschnitten. Die Prüfvorlage wartet auf vollständig geladene native
+Felder und wendet HAs Sprache und Theme tatsächlich an; Browser-Locale
+und eine dunkle Farbanforderung allein genügen dafür nicht.
+Unabhängiger Release-Review des Produktcommits eacba34 ohne kritische oder
+wichtige Befunde. Die tatsächliche JSON-Serialisierung des HA-Clients wurde
+zusätzlich auf maximale Unicode-Texte geprüft; sie bleibt unter der
+Bytegrenze des Kerns. Statische UI-Prüfung weiterhin ohne Verstöße.
