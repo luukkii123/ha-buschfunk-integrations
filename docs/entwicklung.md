@@ -67,8 +67,28 @@ Die statische UI-Regelprüfung meldet keine Verstöße. Der laufende
 Buschfunk-Endpunkt für Diensträume antwortet ohne Schlüssel und mit einem
 erfundenen Schlüssel jeweils korrekt mit HTTP 401.
 
-Noch offen vor der Veröffentlichung: authentifizierter Live-Rundlauf mit
-eigener Testkennung (Anlegen, identischer PUT, Senden mit identischer
-Vorgangskennung, Liste, Entfernen und erneute Liste), native Formularabnahme
-der neuen Aktionen und Prüfung des über HACS installierten Stands.
-Die lokalen Tests ersetzen diese Nachweise nicht.
+26.10.2026, authentifizierte Live-Prüfung mit dem vorhandenen API-Key der
+geladenen HA-Integration und dem unveränderten Integrationsclient: Eine
+eindeutige eigene Testkennung wurde per PUT angelegt (201), durch denselben
+PUT ohne zweiten Raum bestätigt (200, gleiche Chat-ID, `neu=false`) und
+genau einmal in der Liste gefunden (GET 200). DELETE antwortete 204; die
+anschließende Liste enthielt die Testkennung nicht mehr. Ein leerer POST
+wurde vor dem Entfernen mit 400 abgewiesen, ein gültiger POST auf die
+entfernte eigene Kennung danach mit 404. Es wurde keine Nachricht gesendet.
+
+Nach ausdrücklicher Freigabe einer einzigen echten Testnachricht samt
+möglichem Push wurde der vollständige Rundlauf mit einer weiteren eigenen
+Testkennung bestätigt: PUT 201, identischer PUT 200, GET 200, POST 201,
+identischer POST mit derselben Vorgangskennung erneut 201, DELETE 204 und
+GET 200 ohne die entfernte Testkennung. Beide POST-Antworten enthielten
+exakt dieselbe Matrix-Ereignis-ID; damit wurde genau ein unterschiedliches
+Nachrichtenereignis bestätigt. Bestehende Nutzerchats und
+Benachrichtigungseinstellungen wurden nicht geändert.
+
+Die gesonderte HA-Prüfung bestätigte Home Assistant 2026.10.3 im Zustand
+RUNNING, genau einen geladenen Buschfunk-Eintrag und HACS-Version v0.1.0.
+Zugangsdaten wurden ausschließlich privat verarbeitet; keine anderen
+Konfigurationseinträge wurden gespeichert. Die HA-Konfigurationsprüfung war
+gültig. Noch offen vor Veröffentlichung: native Formularabnahme der neuen
+Aktionen und Prüfung des über HACS installierten Stands. Die lokalen Tests
+ersetzen diese Nachweise nicht.
